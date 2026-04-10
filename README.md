@@ -1,153 +1,139 @@
-# ShopSphere 🛒
+# ShopSphere
 
-A full-stack e-commerce web application built as a personal project to practice MERN stack development.
+ShopSphere is a full-stack MERN-style e-commerce practice project.
 
-## What is this?
+It includes a product catalog, search and category filtering, product details, and a persistent shopping cart using localStorage.
 
-ShopSphere is a simple online store where users can browse products, filter by category, search by name, and manage a shopping cart. The cart data is saved in localStorage so it persists even after refreshing the page.
+## Current Features
 
-I built this to get hands-on experience with React, Node.js, Express, and MongoDB all working together.
-
----
-
-## Features
-
-- Browse products fetched from a real backend API
-- Search products by name (debounced)
-- Filter products by category using a dropdown
-- Add products to cart
-- Increase / decrease quantity in cart
-- Remove items from cart
-- Cart total calculated automatically
-- Cart saved in localStorage (persists on refresh)
-- Responsive layout — works on mobile too
-
----
+- Product listing from backend API
+- Search products by title via URL route (`/search/:keyword`)
+- Filter products by category
+- Product details page (`/product/:id`)
+- Add to cart from product page
+- Increment, decrement, and remove cart items
+- Cart totals calculation (items and price)
+- Cart persistence in browser localStorage
+- Responsive UI with a custom polished storefront layout
 
 ## Tech Stack
 
-**Frontend**
+### Frontend
+
 - React (Vite)
 - React Router DOM
-- Plain CSS (no Tailwind or Bootstrap)
-- Context API for cart state
+- Axios
+- React Bootstrap components
+- Bootswatch Litera theme (via CDN)
+- Font Awesome (via CDN)
+- Custom CSS in `src/index.css` and `src/App.css`
 
-**Backend**
+### Backend
+
 - Node.js
 - Express
 - MongoDB + Mongoose
+- CORS + dotenv
 
----
+## Project Structure (Actual)
 
-## Project Structure
-
-```
-shopsphere/
+```text
+ShopSphere/
 ├── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
+│   ├── .env.example
+│   ├── package.json
+│   ├── Product.js
+│   ├── productController.js
+│   ├── productRoutes.js
 │   ├── seed.js
 │   └── server.js
-└── frontend/
-    └── src/
-        ├── components/
-        ├── context/
-        ├── pages/
-        └── styles/
+├── frontend/
+│   ├── package.json
+│   ├── index.html
+│   ├── vite.config.js
+│   └── src/
+│       ├── App.css
+│       ├── App.jsx
+│       ├── index.css
+│       ├── main.jsx
+│       ├── components/
+│       ├── context/
+│       └── pages/
+└── README.md
 ```
 
----
+## Environment Variables
 
-## How to Run Locally
+Create `backend/.env` using `backend/.env.example`:
 
-### Prerequisites
-- Node.js installed
-- MongoDB running locally (or use MongoDB Atlas)
+```env
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
+```
 
-### 1. Clone the repo
+## Run Locally
+
+### 1. Clone
 
 ```bash
-git clone https://github.com/yourusername/shopsphere.git
-cd shopsphere
+git clone https://github.com/hasini-1289/ShopSphere.git
+cd ShopSphere
 ```
 
-### 2. Setup Backend
+### 2. Start Backend
 
 ```bash
 cd backend
 npm install
-```
-
-Create a `.env` file in the backend folder:
-```
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/shopsphere
-```
-
-Seed the database with sample products:
-```bash
 npm run seed
-```
-
-Start the backend server:
-```bash
 npm run dev
 ```
 
-The API will be running at `http://localhost:5000`
+Backend runs at:
 
-### 3. Setup Frontend
+- `http://localhost:5000`
 
-Open a new terminal tab:
+### 3. Start Frontend (new terminal)
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-The app will be running at `http://localhost:5173`
+Frontend runs at:
 
----
+- `http://localhost:5173`
+
+The frontend is configured to proxy `/api` calls to `http://localhost:5000` (see `frontend/vite.config.js`).
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
+| GET | `/` | Health check text response |
 | GET | `/api/products` | Get all products |
-| GET | `/api/products?search=shoes` | Search products |
+| GET | `/api/products?search=headphones` | Search products by title |
 | GET | `/api/products?category=Electronics` | Filter by category |
-| GET | `/api/products/:id` | Get single product |
+| GET | `/api/products?search=shoe&category=Footwear` | Search + category filter |
+| GET | `/api/products/:id` | Get a single product by MongoDB id |
 
----
+## Data Model (Product)
 
-## Screenshots
+Current product schema fields:
 
-> Add your screenshots here once you run the app
+- `title` (string, required)
+- `price` (number, required)
+- `category` (string, required)
+- `image` (string, required)
+- `description` (string, required)
 
----
+## Notes
 
-## What I Learned
-
-- How to connect a React frontend to a Node/Express backend
-- Using Mongoose to define schemas and query MongoDB
-- Managing global state with Context API
-- Persisting data with localStorage
-- Building responsive layouts with CSS Grid and Flexbox
-- Structuring a real full-stack project properly
-
----
-
-## Future Improvements
-
-- Add user authentication (login/signup)
-- Product detail page
-- Payment integration (Stripe maybe)
-- Order history
-- Admin panel to add/edit products
-
----
+- Sample data is inserted through `backend/seed.js`.
+- Cart state is fully client-side and persisted in localStorage.
+- Authentication and checkout/payment are not implemented yet.
 
 ## Author
 
-Made by [Your Name] — feel free to fork and build on it!
+Built by Hasini as a learning project.
